@@ -1,11 +1,10 @@
-import { useState } from "react";
-import HomeIcon from "../atoms/HomeIcon";
-import ListIcon from "../atoms/ListIcon";
-import { IconProps } from "../atoms/types";
-import UserIcon from "../atoms/UserIcon";
-import BadgeIcon from "../atoms/BadgeIcon";
-import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import HomeIcon from "@/components/atoms/icons/HomeIcon";
+import ListIcon from "@/components/atoms/icons/ListIcon";
+import UserIcon from "@/components/atoms/icons//UserIcon";
+import BadgeIcon from "@/components/atoms/icons/BadgeIcon";
+import { IconProps } from "@/components/atoms/icons/types";
 
 interface Tab {
   id: number;
@@ -22,11 +21,22 @@ const tabs: Tab[] = [
 ];
 
 const BottomTab = () => {
-  const [activeTab, setActiveTab] = useState<number>(tabs[0].id);
+  const [activeTab, setActiveTab] = useState<number|null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleTabClick = (tabId: number, path: string) => {
-    setActiveTab(tabId);
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const currentTab = tabs.find(tab => tab.path == currentPath)
+
+    if (currentTab) {
+      setActiveTab(currentTab.id)
+    } else {
+      setActiveTab(null)
+    }
+  }, [location])
+
+  const handleTabClick = (path: string) => {
     navigate(path)
   };
   
@@ -35,8 +45,8 @@ const BottomTab = () => {
       {tabs.map((tab) => (
         <div
           key={tab.id}
-          onClick={() => handleTabClick(tab.id, tab.path)}
-          className="flex flex-col justify-center items-center"
+          onClick={() => handleTabClick(tab.path)}
+          className="flex flex-col justify-center items-center text-gray-500 text-[10px]"
         >
           <tab.icon isSelected={activeTab === tab.id } />
           {tab.label}
