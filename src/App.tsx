@@ -3,12 +3,9 @@ import router from './router/index.tsx';
 
 function App() {
   return (
-    <>
-      <div>
+      <div className='font-suit'>
         <RouterProvider router={router}/>
-
      </div>
-    </>
   )
 }
 
