@@ -1,12 +1,39 @@
 import {
+  Outlet,
   createBrowserRouter,
 } from "react-router-dom";
 import Home from "../pages/Home";
+import BottomTab from "@/components/molecules/BottomTab";
+import List from "@/pages/List";
+import Badge from "@/pages/Badge";
+import MyPage from "@/pages/MyPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home/>
+    path: "",
+    element: <>
+        <Outlet />
+        <BottomTab/>
+    </>,
+    errorElement: <>Error Page</>,
+    children: [
+      {
+        path: '/',
+        element: <Home/>
+      },
+      {
+        path: '/list',
+        element: <List/>
+      },
+      {
+        path: '/badge',
+        element: <Badge/>
+      },
+      {
+        path: '/mypage',
+        element: <MyPage/>
+      }
+    ]
   },
 ]);
 
