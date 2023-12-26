@@ -7,6 +7,7 @@ import BottomTab from "@/components/molecules/BottomTab";
 import List from "@/pages/List";
 import Badge from "@/pages/Badge";
 import MyPage from "@/pages/MyPage";
+import ListAdd from "@/pages/ListAdd";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/list',
         element: <List/>
+      },
+      {
+        path: '/list/add',
+        element: <ListAdd/>
       },
       {
         path: '/badge',
