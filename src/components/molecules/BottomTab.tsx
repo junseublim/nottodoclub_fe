@@ -38,7 +38,7 @@ const BottomTab = () => {
 
   const handleTabClick = (path: string) => {
     navigate(path)
-  };
+  }
   
   return (
     <div className="fixed bottom-0 left-0 right-0 p-2 flex justify-around border-t">
