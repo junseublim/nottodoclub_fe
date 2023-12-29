@@ -1,13 +1,15 @@
 import NotToDoEmpty from '@/assets/svgs/ntd_empty.svg?react'
 import PrimaryButton from '@/components/atoms/buttons/PrimaryButton';
 import NottodoCarousel from '@/components/atoms/carousel/NottodoCarousel';
+import HomeCalendar from '@/components/organisms/HomeCalendar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [noNottodos] = useState(false)
-  const addNotToDo = '낫투두 등록하기'
   const navigate = useNavigate();
+
+  const addNotToDo = '낫투두 등록하기'
 
   const clickHandler = () => {
     navigate('/list/add')
@@ -26,6 +28,7 @@ const Home = () => {
 
   return <div>
     <NottodoCarousel />
+    <HomeCalendar />
   </div>
 }
  

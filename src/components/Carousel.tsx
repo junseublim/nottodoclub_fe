@@ -9,14 +9,7 @@ interface CarouselProps {
 }
 
 const Carousel = ({children}: CarouselProps) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay({ delay: 8000 })])
-  
-  useEffect(() => {
-    if (emblaApi) {
-      console.log(emblaApi.slideNodes())
-      emblaApi.on('select', (...args) => {console.log(...args)})
-    }
-  }, [emblaApi])
+  const [emblaRef] = useEmblaCarousel({ loop: false }, [Autoplay({ delay: 8000 })])
 
   return (
     <div className="overflow-hidden w-full" ref={emblaRef}>
