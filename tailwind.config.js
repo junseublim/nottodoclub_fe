@@ -24,6 +24,9 @@ export default {
       },
       fontFamily: {
         suit: ['SUIT', 'sans-serif']
+      },
+      maxWidth: {
+        '1/7': 1/7
       }
     },
   },
