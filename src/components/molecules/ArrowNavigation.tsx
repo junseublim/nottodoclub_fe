@@ -9,7 +9,7 @@ interface ArrowNavigationProp extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ArrowNavigation = ({label, className, onLeftClick, onRightClick, ...props}: ArrowNavigationProp) => {
-  return (<div className={'flex ' + className} {...props}>
+  return (<div className={`flex ${className}`} {...props}>
     <LeftArrow onClick={onLeftClick} />
     <span className="font-bold px-4">
       { label }

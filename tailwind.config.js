@@ -12,7 +12,7 @@ export default {
         'primary-light': '#FFE683',
         'blue-accent': '#16B9FF',
         'red-negative': '#FF4F60',
-        'yello-warning': '#FFD12B',
+        'yellow-warning': '#FFD12B',
         'green-positive': '#73EF5F',
         'gray-900': '#090909',
         'gray-600': '#6F6F6F',
