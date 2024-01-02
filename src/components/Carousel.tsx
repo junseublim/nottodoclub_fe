@@ -1,35 +1,31 @@
-import useEmblaCarousel from 'embla-carousel-react'
-import Autoplay from 'embla-carousel-autoplay'
-import { useCallback, useEffect } from 'react'
-
-
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { useCallback, useEffect } from "react";
 
 interface CarouselProps {
-  children: React.ReactElement<CarouselItemProps>[]
+  children: React.ReactElement<CarouselItemProps>[];
 }
 
-const Carousel = ({children}: CarouselProps) => {
-  const [emblaRef] = useEmblaCarousel({ loop: false }, [Autoplay({ delay: 8000 })])
+const Carousel = ({ children }: CarouselProps) => {
+  const [emblaRef] = useEmblaCarousel({ loop: false }, [
+    Autoplay({ delay: 8000 }),
+  ]);
 
   return (
     <div className="overflow-hidden w-full" ref={emblaRef}>
-      <div className="flex">
-        {children}
-      </div>
+      <div className="flex">{children}</div>
     </div>
-  )
-}
+  );
+};
 
 interface CarouselItemProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const CarouselItem = ({children}: CarouselItemProps) => {
-  return <div className="flex-[0_0_100%] min-w-0">
-    {children}
-  </div>
-}
+const CarouselItem = ({ children }: CarouselItemProps) => {
+  return <div className="flex-[0_0_100%] min-w-0">{children}</div>;
+};
 
-Carousel.Item = CarouselItem
+Carousel.Item = CarouselItem;
 
-export default Carousel
+export default Carousel;

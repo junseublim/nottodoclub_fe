@@ -1,5 +1,5 @@
 const ListAdd = () => {
-  return (<>ListAdd</>);
-}
- 
+  return <>ListAdd</>;
+};
+
 export default ListAdd;

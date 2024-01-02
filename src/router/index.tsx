@@ -1,7 +1,4 @@
-import {
-  Outlet,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import BottomTab from "@/components/molecules/BottomTab";
 import List from "@/pages/List";
@@ -12,34 +9,36 @@ import ListAdd from "@/pages/ListAdd";
 const router = createBrowserRouter([
   {
     path: "",
-    element: <>
+    element: (
+      <>
         <Outlet />
-        <BottomTab/>
-    </>,
+        <BottomTab />
+      </>
+    ),
     errorElement: <>Error Page</>,
     children: [
       {
-        path: '/',
-        element: <Home/>
+        path: "/",
+        element: <Home />,
       },
       {
-        path: '/list',
-        element: <List/>
+        path: "/list",
+        element: <List />,
       },
       {
-        path: '/list/add',
-        element: <ListAdd/>
+        path: "/list/add",
+        element: <ListAdd />,
       },
       {
-        path: '/badge',
-        element: <Badge/>
+        path: "/badge",
+        element: <Badge />,
       },
       {
-        path: '/mypage',
-        element: <MyPage/>
-      }
-    ]
+        path: "/mypage",
+        element: <MyPage />,
+      },
+    ],
   },
 ]);
 
-export default router
+export default router;

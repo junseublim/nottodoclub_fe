@@ -6,14 +6,12 @@ interface CardWithButtonProps {
   onClick: () => void;
 }
 
-const CardWithButton = ({label, onClick}: CardWithButtonProps) => {
-  return (<Card>
-    <SecondaryButton
-      className="px-8 py-2"
-      label={label}
-      onClick={onClick}
-    />
-  </Card>)
-}
- 
+const CardWithButton = ({ label, onClick }: CardWithButtonProps) => {
+  return (
+    <Card>
+      <SecondaryButton className="px-8 py-2" label={label} onClick={onClick} />
+    </Card>
+  );
+};
+
 export default CardWithButton;

@@ -1,5 +1,5 @@
 import { HTMLAttributes } from "react";
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  label: string
+  label: string;
 }
