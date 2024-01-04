@@ -41,18 +41,21 @@ const BottomTab = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-2 flex justify-around border-t">
-      {tabs.map((tab) => (
-        <div
-          key={tab.id}
-          onClick={() => handleTabClick(tab.path)}
-          className="flex flex-col justify-center items-center text-gray-500 text-[10px]"
-        >
-          <tab.icon isSelected={activeTab === tab.id} />
-          {tab.label}
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="fixed bottom-0 left-0 right-0 p-2 h-16 flex justify-around border-t bg-gray-0">
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            onClick={() => handleTabClick(tab.path)}
+            className="flex flex-col justify-center items-center text-gray-500 text-[10px]"
+          >
+            <tab.icon isSelected={activeTab === tab.id} />
+            {tab.label}
+          </div>
+        ))}
+      </div>
+      <div className="h-16 p-2" />
+    </>
   );
 };
 
