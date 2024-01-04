@@ -7,14 +7,28 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoModerationCard from "@/components/organisms/NoModerationCard";
 import ModerationModal from "@/components/organisms/ModerationModal";
+import ModerationList from "@/components/organisms/ModerationList";
 
 const Home = () => {
   const [noNottodos] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
   const [currentNottodo, setCurrentNottodo] = useState(null);
-  const [moderations, setModerations] = useState([]);
+  const [moderations, setModerations] = useState([
+    { title: 'title1', date: new Date(), status: 'success' },
+    { title: 'title2', date: new Date(), status: 'fail' },
+    { title: 'title1', date: new Date(), status: 'success' },
+    { title: 'title2', date: new Date(), status: 'fail' },
+    { title: 'title1', date: new Date(), status: 'success' },
+    { title: 'title2', date: new Date(), status: 'fail' },
+    { title: 'title1', date: new Date(), status: 'success' },
+    { title: 'title2', date: new Date(), status: 'fail' },
+    { title: 'title1', date: new Date(), status: 'success' },
+    { title: 'title2', date: new Date(), status: 'fail' },
+    { title: 'title1', date: new Date(), status: 'success' },
+    { title: 'title2', date: new Date(), status: 'fail' },
+  ]);
   const [isToday, setIsToday] = useState(true);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const addNotToDo = "낫투두 등록하기";
@@ -50,11 +64,15 @@ const Home = () => {
     <div>
       <NottodoCarousel />
       <HomeCalendar date={date} onDateChange={setSelectedDate} />
-      {moderations.length === 0 && isToday ? (
-        <AddModerationCard onClick={() => setShowModal(true)} />
-      ) : (
-        <NoModerationCard />
-      )}
+      {
+        moderations.length > 0 && <ModerationList moderations={moderations} />
+      }
+      {
+        moderations.length === 0 && isToday && <AddModerationCard onClick={() => setShowModal(true)} />
+      }
+      {
+        moderations.length === 0 && !isToday && <NoModerationCard />
+      }
       {
         <ModerationModal
           isOpen={showModal}
@@ -62,6 +80,7 @@ const Home = () => {
           onClose={() => setShowModal(false)}
         />
       }
+      
     </div>
   );
 };

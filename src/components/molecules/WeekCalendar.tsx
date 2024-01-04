@@ -1,3 +1,5 @@
+import { isSameDate } from "@/utils";
+
 type WeekDayStatus = "good" | "not bad" | "bad";
 
 type WeekDay = {
@@ -27,7 +29,8 @@ const WeekCalendar = ({
   onDatechange,
 }: WeekCalendarProps) => {
   const weekDaysHeader = ["월", "화", "수", "목", "금", "토", "일"];
-  const isSelected = (date: Date) => date.getTime() === selectedDate.getTime();
+  const isSelected = (date: Date) => isSameDate(date, selectedDate);
+
   const selectedDateClass = (date: Date) =>
     isSelected(date) ? "rounded-full bg-primary" : "";
 
