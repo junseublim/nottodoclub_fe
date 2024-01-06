@@ -6,6 +6,13 @@ export function isSameDate(date1: Date, date2: Date) {
   );
 }
 
+export function isTomorrowOrLater(date: Date) {
+  const today = new Date();
+  today.setHours(23, 59, 59, 999)
+
+  return date > today
+}
+
 export function dateToHHMMMeridiemformat(date: Date) {
   return new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',

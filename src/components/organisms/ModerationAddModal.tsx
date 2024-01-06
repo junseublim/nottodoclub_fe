@@ -1,22 +1,21 @@
 import { useState } from "react";
-import BottomModal from "../atoms/BottomModal";
+import BottomModal from "../molecules/Modals/BottomModal";
 import ToggleButtonGroup from "../molecules/ToggleButtonGroup";
 import TextAreaInput from "../atoms/TextAreaInput";
 import SecondaryButton from "../atoms/buttons/SecondaryButton";
+import { ModerationStatusType } from "@/types";
 
-type ModerationType = 'success' | 'fail'
-
-interface ModerationModalProps {
+interface ModerationAddModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (moderationType: ModerationType, content: string) => void;
+  onSubmit: (moderationType: ModerationStatusType, content: string) => void;
 }
 
-const ModerationModal = ({ isOpen, onClose, onSubmit }: ModerationModalProps) => {
-  const [moderationType, setModerationType] = useState<ModerationType>('success')
+const ModerationAddModal = ({ isOpen, onClose, onSubmit }: ModerationAddModalProps) => {
+  const [moderationType, setModerationType] = useState<ModerationStatusType>('success')
   const [content, setContent] = useState<string>('')
   const [isShort, setIsShort] = useState<boolean>(false);
-  const values: [ModerationType, ModerationType] = ['success', 'fail']
+  const values: [ModerationStatusType, ModerationStatusType] = ['success', 'fail']
 
   const onClickSubmit = () => {
     const isShort = content.length < 4
@@ -31,7 +30,7 @@ const ModerationModal = ({ isOpen, onClose, onSubmit }: ModerationModalProps) =>
 
   return (<BottomModal isOpen={isOpen} onClose={onClose}>
     <div className="w-11/12 mx-auto">
-      <ToggleButtonGroup<ModerationType>
+      <ToggleButtonGroup<ModerationStatusType>
         values={values}
         labels={[ '성공 기록', '실패 기록']}
         toggledClasses={['bg-green-positive', 'bg-red-negative']}
@@ -54,4 +53,4 @@ const ModerationModal = ({ isOpen, onClose, onSubmit }: ModerationModalProps) =>
   </BottomModal>)
 }
  
-export default ModerationModal;
+export default ModerationAddModal;

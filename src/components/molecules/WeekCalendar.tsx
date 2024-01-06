@@ -1,4 +1,4 @@
-import { isSameDate } from "@/utils";
+import { isSameDate, isTomorrowOrLater } from "@/utils";
 
 type WeekDayStatus = "good" | "not bad" | "bad";
 
@@ -34,10 +34,15 @@ const WeekCalendar = ({
   const selectedDateClass = (date: Date) =>
     isSelected(date) ? "rounded-full bg-primary" : "";
 
-  const getDotColor = (status: WeekDayStatus) => {
+  const getDotColor = (status: WeekDayStatus | null) => {
     if (status === null) return "";
     return statusBgColorMap[status];
   };
+
+  const selectDate = (date: Date) => {
+    if (isTomorrowOrLater(date)) return;
+    onDatechange(date)
+  }
 
   return (
     <table className="w-full border-separate border-spacing-2">
@@ -56,9 +61,9 @@ const WeekCalendar = ({
             <td
               className={`p-2 relative ${selectedDateClass(
                 day.date,
-              )} max-w-1/7`}
+              )} ${isTomorrowOrLater(day.date) ? 'text-gray-300' : ''} max-w-1/7`}
               key={`${day.date.getTime()}_${index}`}
-              onClick={() => onDatechange(day.date)}
+              onClick={() => selectDate(day.date)}
             >
               {!isSelected(day.date) && (
                 <span
