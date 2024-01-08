@@ -18,7 +18,7 @@ const ModerationDetailModal = ({ moderation, isOpen, onClose, onDelete, onModify
     return;
   }
 
-  return (<BottomModal isOpen={isOpen} onClose={onClose}>
+  return (<BottomModal modalName="ModerationDetailModal" isOpen={isOpen} onClose={onClose}>
     <div className="w-11/12 mx-auto ">
       <div className="flex justify-between">
         <div className='flex'>

@@ -3,15 +3,21 @@ import PrimaryButton from "@/components/atoms/buttons/PrimaryButton";
 import NottodoCarousel from "@/components/atoms/carousel/NottodoCarousel";
 import HomeCalendar from "@/components/organisms/HomeCalendar";
 import AddModerationCard from "@/components/organisms/AddModerationCard";
-import { useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoModerationCard from "@/components/organisms/NoModerationCard";
 import ModerationAddModal from "@/components/organisms/ModerationAddModal";
 import ModerationList from "@/components/organisms/ModerationList";
 import ModerationDetailModal from "@/components/organisms/ModerationDetailModal";
-import { ModerationItemType } from "@/types";
+import { ModerationItemType, ModerationStatusType } from "@/types";
 import { isSameDate } from "@/utils";
 import DeleteModerationModal from "@/components/organisms/DeleteModerationModal";
+import SecondaryButton from "@/components/atoms/buttons/SecondaryButton";
+
+type NewModerationType = {
+  content: string;
+  status: ModerationStatusType;
+}
 
 const Home = () => {
   const [noNottodos] = useState(false);
@@ -34,9 +40,15 @@ const Home = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedModeration, setSelectedModeration] = useState<ModerationItemType | null>(null)
+  const [newModeration, setNewModeration] = useState<NewModerationType>({
+    content: '',
+    status: 'success'
+  })
+
   const navigate = useNavigate();
 
   const addNotToDo = "낫투두 등록하기";
+
 
   const clickHandler = () => {
     navigate("/list/add");
@@ -47,8 +59,8 @@ const Home = () => {
     setIsToday(isSameDate(date, new Date()))
   };
 
-  const onSubmit = (type: string, content: string) => {
-    console.log(type, content)
+  const onSubmit = () => {
+    console.log(newModeration)
   }
 
   const onClickModeration = (id: number) => {
@@ -70,6 +82,37 @@ const Home = () => {
     setShowDetailModal(true)
   }
 
+  const onCancelAddModifyModal = () => {
+    setNewModeration({
+      content: '',
+      status: 'success'
+    })
+    setShowAddModal(false)
+  }
+
+  const onModify = () => {
+    setNewModeration({
+      content: selectedModeration!.title,
+      status: selectedModeration!.status
+    })
+    setShowDetailModal(false)
+    setShowAddModal(true)
+  }
+
+  const setStatus = (value: ModerationStatusType) => {
+    setNewModeration(moderation => ({
+      ...moderation,
+      status: value
+    }))
+  }
+
+  const setContent = (value: string) => {
+    setNewModeration(moderation => ({
+      ...moderation,
+      content: value
+    }))
+  }
+
   if (noNottodos) {
     return (
       <div className="flex justify-center items-center flex-col h-screen">
@@ -79,7 +122,11 @@ const Home = () => {
             <span>아래 버튼을 눌러</span>
           <span>새로운 낫투두를 등록해주세요.</span>
         </div>
-        <PrimaryButton label={addNotToDo} onClick={clickHandler} />
+        <PrimaryButton
+          className="w-40 py-2"
+          label={addNotToDo}
+          onClick={clickHandler}
+        />
       </div>
     );
   }
@@ -89,7 +136,11 @@ const Home = () => {
       <NottodoCarousel />
       <HomeCalendar date={date} onDateChange={setSelectedDate} />
       {
-        moderations.length > 0 && <ModerationList moderations={moderations} onClick={onClickModeration}/>
+        moderations.length > 0 &&
+        <div className="flex flex-col items-center mb-4">
+          <ModerationList moderations={moderations} onClick={onClickModeration} />
+          <SecondaryButton className="px-8 py-2" label={"기록 추가"} onClick={() => setShowAddModal(true)} />
+        </div>
       }
       {
         moderations.length === 0 && isToday && <AddModerationCard onClick={() => setShowAddModal(true)} />
@@ -99,16 +150,20 @@ const Home = () => {
       }
       {
         <ModerationAddModal
+          status={newModeration.status}
+          content={newModeration.content}
+          setStatus={setStatus}
+          setContent={setContent}
           isOpen={showAddModal}
           onSubmit={onSubmit}
-          onClose={() => setShowAddModal(false)}
+          onClose={onCancelAddModifyModal}
         />
       }
       {
         <ModerationDetailModal
           moderation={selectedModeration}
           isOpen={showDetailModal}
-          onModify={() => {} }
+          onModify={onModify}
           onDelete={onShowDeleteModal}
           onClose={() => setShowDetailModal(false)}
         />

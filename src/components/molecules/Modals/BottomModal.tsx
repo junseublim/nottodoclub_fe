@@ -3,13 +3,12 @@ import CloseIcon from '@/assets/svgs/icn_close.svg?react'
 import { useModalContext } from "@/hooks";
 
 interface BottomModalProps extends HTMLAttributes<HTMLDivElement> {
+  modalName: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const BOTTOM_MODAL = 'BOTTOM_MODAL'
-
-const BottomModal = ({ isOpen, onClose, children }: BottomModalProps) => {
+const BottomModal = ({ modalName, isOpen, onClose, children }: BottomModalProps) => {
   const {addModal, removeModal} = useModalContext();
   const [showModal, setShowModal] = useState(false)
 
@@ -17,14 +16,14 @@ const BottomModal = ({ isOpen, onClose, children }: BottomModalProps) => {
     setShowModal(isOpen)
 
     if (isOpen) {
-      addModal(BOTTOM_MODAL)
+      addModal(modalName)
     } else {
-      removeModal(BOTTOM_MODAL)
+      removeModal(modalName)
     }
   }, [isOpen])
 
   const onCloseModal = () => {
-    removeModal(BOTTOM_MODAL)
+    removeModal(modalName)
     onClose()
   }
 
