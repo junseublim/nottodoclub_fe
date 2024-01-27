@@ -1,17 +1,16 @@
 import { ModerationItemType } from "@/types";
 import { dateToHHMMMeridiemformat, moderationStatusToColor } from "@/utils";
-import { HTMLAttributes } from "react";
 import SecondaryButton from "@/components/common/buttons/SecondaryButton";
 import AddModerationCard from "@/components/home/AddModerationCard";
 import NoModerationCard from "./NoModerationCard";
-
-interface ModerationListItemProps extends HTMLAttributes<HTMLDivElement> {
+interface ModerationListItemProps {
   item: ModerationItemType;
+  onClick: () => void;
 }
 
-const ModerationListItem = ({item}: ModerationListItemProps) => {
+const ModerationListItem = ({ item, onClick }: ModerationListItemProps) => {
   return (
-    <li className="flex justify-between mt-5 items-center">
+    <li className="flex justify-between mt-5 items-center" onClick={onClick}>
       <div className="flex">
         <span className={`w-1.5 rounded-xl mr-2 bg-${moderationStatusToColor(item.status)}`} />
         <span>{item.title}</span>

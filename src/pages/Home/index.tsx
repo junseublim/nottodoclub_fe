@@ -1,15 +1,12 @@
 import NottodoCarousel from "@/components/home/NottodoCarousel";
 import HomeCalendar from "@/components/home/ModerationCalendar";
-import AddModerationCard from "@/components/home/AddModerationCard";
 import {  useState } from "react";
-import NoModerationCard from "@/components/home/NoModerationCard";
 import ModerationAddModal from "@/components/home/ModerationAddModal";
 import ModerationList from "@/components/home/ModerationList";
 import ModerationDetailModal from "@/components/home/ModerationDetailModal";
 import { ModerationItemType, ModerationStatusType } from "@/types";
 import { isSameDate } from "@/utils";
 import DeleteModerationModal from "@/components/home/DeleteModerationModal";
-import SecondaryButton from "@/components/common/buttons/SecondaryButton";
 import EmptyNottodo from "./EmptyNottodo";
 
 type NewModerationType = {
