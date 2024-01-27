@@ -1,5 +1,5 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
+import Home from "@/pages/Home";
 import BottomTab from "@/components/layout/BottomTab";
 import List from "@/pages/List";
 import Badge from "@/pages/Badge";

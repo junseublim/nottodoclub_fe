@@ -1,10 +1,7 @@
-import NotToDoEmpty from "@/assets/svgs/ntd_empty.svg?react";
-import PrimaryButton from "@/components/common/buttons/PrimaryButton";
 import NottodoCarousel from "@/components/home/NottodoCarousel";
 import HomeCalendar from "@/components/home/ModerationCalendar";
 import AddModerationCard from "@/components/home/AddModerationCard";
 import {  useState } from "react";
-import { useNavigate } from "react-router-dom";
 import NoModerationCard from "@/components/home/NoModerationCard";
 import ModerationAddModal from "@/components/home/ModerationAddModal";
 import ModerationList from "@/components/home/ModerationList";
@@ -13,6 +10,7 @@ import { ModerationItemType, ModerationStatusType } from "@/types";
 import { isSameDate } from "@/utils";
 import DeleteModerationModal from "@/components/home/DeleteModerationModal";
 import SecondaryButton from "@/components/common/buttons/SecondaryButton";
+import EmptyNottodo from "./EmptyNottodo";
 
 type NewModerationType = {
   content: string;
@@ -45,22 +43,12 @@ const Home = () => {
     status: 'success'
   })
 
-  const navigate = useNavigate();
-
-  const addNotToDo = "낫투두 등록하기";
-
-
-  const clickHandler = () => {
-    navigate("/list/add");
-  };
-
   const setSelectedDate = (date: Date) => {
     setDate(date);
     setIsToday(isSameDate(date, new Date()))
   };
 
   const onSubmit = () => {
-    console.log(newModeration)
     onCancelAddModifyModal()
   }
 
@@ -115,67 +103,40 @@ const Home = () => {
   }
 
   if (noNottodos) {
-    return (
-      <div className="flex justify-center items-center flex-col h-screen">
-        <NotToDoEmpty />
-
-        <div className="flex flex-col items-center my-4 w-30 text-gray-500 text-base font-bold">
-            <span>아래 버튼을 눌러</span>
-          <span>새로운 낫투두를 등록해주세요.</span>
-        </div>
-        <PrimaryButton
-          className="w-40 py-2"
-          label={addNotToDo}
-          onClick={clickHandler}
-        />
-      </div>
-    );
+    return <EmptyNottodo />
   }
 
   return (
     <div>
       <NottodoCarousel />
       <HomeCalendar date={date} onDateChange={setSelectedDate} />
-      {
-        moderations.length > 0 &&
-        <div className="flex flex-col items-center mb-4">
-          <ModerationList moderations={moderations} onClick={onClickModeration} />
-          <SecondaryButton className="px-8 py-2" label={"기록 추가"} onClick={() => setShowAddModal(true)} />
-        </div>
-      }
-      {
-        moderations.length === 0 && isToday && <AddModerationCard onClick={() => setShowAddModal(true)} />
-      }
-      {
-        moderations.length === 0 && !isToday && <NoModerationCard />
-      }
-      {
-        <ModerationAddModal
-          status={newModeration.status}
-          content={newModeration.content}
-          setStatus={setStatus}
-          setContent={setContent}
-          isOpen={showAddModal}
-          onSubmit={onSubmit}
-          onClose={onCancelAddModifyModal}
-        />
-      }
-      {
-        <ModerationDetailModal
-          moderation={selectedModeration}
-          isOpen={showDetailModal}
-          onModify={onModify}
-          onDelete={onShowDeleteModal}
-          onClose={() => setShowDetailModal(false)}
-        />
-      }
-      {
-        <DeleteModerationModal
-          isOpen={showDeleteModal}
-          onClose={onCancelDeleteModal}
-          onDelete={console.log}
-        />
-      }
+      <ModerationList 
+        moderations={moderations}
+        isToday={isToday}
+        onAddModeration={() => setShowAddModal(true)}
+        onClickModeration={onClickModeration}
+      />
+      <ModerationAddModal
+        status={newModeration.status}
+        content={newModeration.content}
+        setStatus={setStatus}
+        setContent={setContent}
+        isOpen={showAddModal}
+        onSubmit={onSubmit}
+        onClose={onCancelAddModifyModal}
+      />
+      <ModerationDetailModal
+        moderation={selectedModeration}
+        isOpen={showDetailModal}
+        onModify={onModify}
+        onDelete={onShowDeleteModal}
+        onClose={() => setShowDetailModal(false)}
+      />
+      <DeleteModerationModal
+        isOpen={showDeleteModal}
+        onClose={onCancelDeleteModal}
+        onDelete={console.log}
+      />
     </div>
   );
 };

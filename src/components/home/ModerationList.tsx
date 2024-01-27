@@ -1,25 +1,54 @@
 import { ModerationItemType } from "@/types";
 import { dateToHHMMMeridiemformat, moderationStatusToColor } from "@/utils";
+import { HTMLAttributes } from "react";
+import SecondaryButton from "@/components/common/buttons/SecondaryButton";
+import AddModerationCard from "@/components/home/AddModerationCard";
+import NoModerationCard from "./NoModerationCard";
 
-interface ModerationListProps {
-  moderations: ModerationItemType[];
-  onClick: (id: number) => void;
+interface ModerationListItemProps extends HTMLAttributes<HTMLDivElement> {
+  item: ModerationItemType;
 }
 
-const ModerationList = ({ moderations, onClick }: ModerationListProps) => {
-  return (<ul className="my-5 border-t w-11/12 mx-auto">
-    {
-      moderations.map((item,index) => (
-        <li className="flex justify-between mt-5 items-center" key={`${item.title}_${index}`} onClick={() => onClick(item.id)}>
-          <div className="flex">
-            <span className={`w-1.5 rounded-xl mr-2 bg-${moderationStatusToColor(item.status)}`} />
-            <span>{item.title}</span>
-          </div>
-          <span className="text-gray-500 text-sm">{dateToHHMMMeridiemformat(item.date)}</span>
-        </li>
-      ))
+const ModerationListItem = ({item}: ModerationListItemProps) => {
+  return (
+    <li className="flex justify-between mt-5 items-center">
+      <div className="flex">
+        <span className={`w-1.5 rounded-xl mr-2 bg-${moderationStatusToColor(item.status)}`} />
+        <span>{item.title}</span>
+      </div>
+      <span className="text-gray-500 text-sm">{dateToHHMMMeridiemformat(item.date)}</span>
+    </li>
+  )
+}
+
+interface ModerationListProps {
+  isToday: boolean;
+  moderations: ModerationItemType[];
+  onClickModeration: (id: number) => void;
+  onAddModeration: () => void;
+}
+
+const ModerationList = ({ isToday, moderations, onClickModeration, onAddModeration }: ModerationListProps) => {
+  if (moderations.length === 0) {
+    if (isToday) {
+      return <AddModerationCard onClick={onAddModeration} />;
+    } else {
+      return <NoModerationCard />;
     }
-  </ul>);
+  }
+
+  return (
+    <div className="flex flex-col items-center mb-4">
+      <ul className="my-5 border-t w-11/12 mx-auto">
+      {
+        moderations.map((item,index) => (
+          <ModerationListItem key={`${item.title}_${index}`} item={item} onClick={() => onClickModeration(item.id)}/>
+        )) 
+      }
+      </ul>
+      <SecondaryButton className="px-8 py-2" label={"기록 추가"} onClick={onAddModeration} />
+    </div>
+  );
 }
  
 export default ModerationList;
