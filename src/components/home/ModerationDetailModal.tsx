@@ -1,8 +1,8 @@
 import ThumbsUp from '@/assets/svgs/thumb_up.svg?react';
 import ThumbsDown from '@/assets/svgs/thumb_down.svg?react';
-import BottomModal from "../molecules/Modals/BottomModal";
+import BottomModal from "@/components/common/modals/BottomModal";
 import { ModerationItemType } from "@/types";
-import TertiaryButton from '../atoms/buttons/TertiaryButton';
+import TertiaryButton from '../common/buttons/TertiaryButton';
 import { dateToHHMMMeridiemformat } from '@/utils';
 
 interface ModerationDetailModalProps {

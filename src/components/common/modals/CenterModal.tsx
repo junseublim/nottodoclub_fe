@@ -1,14 +1,8 @@
 import { useModalContext } from "@/hooks";
-import { HTMLAttributes, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { ModalProps } from "./types";
 
-interface CenterModalProps extends HTMLAttributes<HTMLDivElement> {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const CENTER_MODAL = 'CENTER_MODAL'
-
-const CenterModal = ({ isOpen, children }: CenterModalProps) => {
+const CenterModal = ({ isOpen, children, modalName }: ModalProps) => {
   const {addModal, removeModal} = useModalContext();
   const [showModal, setShowModal] = useState(false)
 
@@ -16,9 +10,9 @@ const CenterModal = ({ isOpen, children }: CenterModalProps) => {
     setShowModal(isOpen)
 
     if (isOpen) {
-      addModal(CENTER_MODAL)
+      addModal(modalName)
     } else {
-      removeModal(CENTER_MODAL)
+      removeModal(modalName)
     }
   }, [isOpen])
 

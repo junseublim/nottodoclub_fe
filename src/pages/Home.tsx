@@ -1,18 +1,18 @@
 import NotToDoEmpty from "@/assets/svgs/ntd_empty.svg?react";
-import PrimaryButton from "@/components/atoms/buttons/PrimaryButton";
-import NottodoCarousel from "@/components/atoms/carousel/NottodoCarousel";
-import HomeCalendar from "@/components/organisms/HomeCalendar";
-import AddModerationCard from "@/components/organisms/AddModerationCard";
+import PrimaryButton from "@/components/common/buttons/PrimaryButton";
+import NottodoCarousel from "@/components/home/NottodoCarousel";
+import HomeCalendar from "@/components/home/ModerationCalendar";
+import AddModerationCard from "@/components/home/AddModerationCard";
 import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NoModerationCard from "@/components/organisms/NoModerationCard";
-import ModerationAddModal from "@/components/organisms/ModerationAddModal";
-import ModerationList from "@/components/organisms/ModerationList";
-import ModerationDetailModal from "@/components/organisms/ModerationDetailModal";
+import NoModerationCard from "@/components/home/NoModerationCard";
+import ModerationAddModal from "@/components/home/ModerationAddModal";
+import ModerationList from "@/components/home/ModerationList";
+import ModerationDetailModal from "@/components/home/ModerationDetailModal";
 import { ModerationItemType, ModerationStatusType } from "@/types";
 import { isSameDate } from "@/utils";
-import DeleteModerationModal from "@/components/organisms/DeleteModerationModal";
-import SecondaryButton from "@/components/atoms/buttons/SecondaryButton";
+import DeleteModerationModal from "@/components/home/DeleteModerationModal";
+import SecondaryButton from "@/components/common/buttons/SecondaryButton";
 
 type NewModerationType = {
   content: string;
@@ -61,6 +61,7 @@ const Home = () => {
 
   const onSubmit = () => {
     console.log(newModeration)
+    onCancelAddModifyModal()
   }
 
   const onClickModeration = (id: number) => {
@@ -175,7 +176,6 @@ const Home = () => {
           onDelete={console.log}
         />
       }
-      
     </div>
   );
 };

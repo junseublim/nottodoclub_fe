@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import BottomModal from "../molecules/Modals/BottomModal";
-import ToggleButtonGroup from "../molecules/ToggleButtonGroup";
-import TextAreaInput from "../atoms/TextAreaInput";
-import SecondaryButton from "../atoms/buttons/SecondaryButton";
+import { useState } from "react";
+import BottomModal from "@/components/common/modals/BottomModal";
+import ToggleButtonGroup from "@/components/common/buttons/ToggleButtonGroup";
+import TextAreaInput from "../common/TextAreaInput";
+import SecondaryButton from "../common/buttons/SecondaryButton";
 import { ModerationStatusType } from "@/types";
+import ErrorSpan from "@/components/common/ErrorSpan";
 
 interface ModerationAddModalProps {
   status: ModerationStatusType;
@@ -41,11 +42,11 @@ const ModerationAddModal = ({ status, content, setStatus, setContent, isOpen, on
       />
       <TextAreaInput
         value={content}
-        onChange={setContent}
+        onTextChange={setContent}
         placeholder={"코멘트 입력 (최소 4자)"}
         hasError={isShort}
-        errorMessage="4자 이상 입력해주세요."
       />
+      <ErrorSpan errorMessage="4자 이상 입력해주세요." />
       <SecondaryButton
         label="완료"
         className="w-full py-3 my-4"

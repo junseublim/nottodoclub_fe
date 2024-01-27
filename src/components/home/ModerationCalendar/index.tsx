@@ -1,6 +1,6 @@
 import useWeeklyCalendar from "@/hooks/useWeeklyCalendar";
-import ArrowNavigation from "../molecules/ArrowNavigation";
-import WeekCalendar from "../molecules/WeekCalendar";
+import ArrowNavigation from "./ArrowNavigation";
+import WeekCalendar from "./WeekCalendar";
 
 interface HomeCalendarProps {
   date: Date;
@@ -14,7 +14,7 @@ const getWeekDays = (weekDays) => {
   }));
 };
 
-const HomeCalendar = ({ date, onDateChange }: HomeCalendarProps) => {
+const ModerationCalendar = ({ date, onDateChange }: HomeCalendarProps) => {
   const { movePreviousWeek, moveNextWeek, weekDays, month, week } =
     useWeeklyCalendar();
 
@@ -35,4 +35,4 @@ const HomeCalendar = ({ date, onDateChange }: HomeCalendarProps) => {
   );
 };
 
-export default HomeCalendar;
+export default ModerationCalendar;

@@ -1,5 +1,5 @@
-import TextButton from "../atoms/buttons/TextButton";
-import CenterModal from "../molecules/Modals/CenterModal";
+import TextButton from "@/components/common/buttons/TextButton";
+import CenterModal from "@/components/common/modals/CenterModal";
 
 interface DeleteModerationModalProps {
   isOpen: boolean;
@@ -11,6 +11,7 @@ const DeleteModerationModal = ({isOpen, onClose, onDelete}: DeleteModerationModa
   return (<CenterModal
     isOpen={isOpen}
     onClose={onClose}
+    modalName="DELETE_MODAL"
   >
     <div>
         나의 절제 기록이 사라져요. 정말로 삭제하시겠어요?

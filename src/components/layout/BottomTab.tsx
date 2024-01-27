@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import HomeIcon from "@/components/atoms/icons/HomeIcon";
-import ListIcon from "@/components/atoms/icons/ListIcon";
-import UserIcon from "@/components/atoms/icons//UserIcon";
-import BadgeIcon from "@/components/atoms/icons/BadgeIcon";
-import { IconProps } from "@/components/atoms/icons/types";
+import HomeIcon from "@/components/common/icons/HomeIcon";
+import ListIcon from "@/components/common/icons/ListIcon";
+import UserIcon from "@/components/common/icons/UserIcon";
+import BadgeIcon from "@/components/common/icons/BadgeIcon";
+import { IconProps } from "@/components/common/icons/types";
 
 interface Tab {
   id: number;

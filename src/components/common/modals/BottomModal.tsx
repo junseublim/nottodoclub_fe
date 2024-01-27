@@ -1,14 +1,9 @@
-import { HTMLAttributes, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CloseIcon from '@/assets/svgs/icn_close.svg?react'
 import { useModalContext } from "@/hooks";
+import { ModalProps } from "./types";
 
-interface BottomModalProps extends HTMLAttributes<HTMLDivElement> {
-  modalName: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const BottomModal = ({ modalName, isOpen, onClose, children }: BottomModalProps) => {
+const BottomModal = ({ modalName, isOpen, onClose, children }: ModalProps) => {
   const {addModal, removeModal} = useModalContext();
   const [showModal, setShowModal] = useState(false)
 
