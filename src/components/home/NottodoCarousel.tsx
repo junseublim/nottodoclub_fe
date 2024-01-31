@@ -44,11 +44,12 @@ const NottodoCarousel = ({ nottodos }: NottodoCarouselProps) => {
   return (
     <Carousel>
       {
-        nottodos?.map(nottodo => (
+        nottodos?.map((nottodo, index) => (
           <Carousel.Item
             key={nottodo.id + nottodo.title}
           >
             <NottodoSlide
+              isDark={index % 2 !== 0}
               title={nottodo.title}
               description={nottodo.goal}
               successCount={20}

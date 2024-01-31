@@ -103,7 +103,7 @@ const Home = () => {
     return
   }
 
-  if (nottodosQuery.data && nottodosQuery.data.length === 0) {
+  if (nottodosQuery.data.length === 0) {
     return <EmptyNottodo />
   }
 
