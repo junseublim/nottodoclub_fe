@@ -1,10 +1,10 @@
-import { ModerationItemType } from "@/types";
+import { Moderation } from "@/types";
 import { dateToHHMMMeridiemformat, moderationStatusToColor } from "@/utils";
 import SecondaryButton from "@/components/common/buttons/SecondaryButton";
 import AddModerationCard from "@/components/home/AddModerationCard";
 import NoModerationCard from "./NoModerationCard";
 interface ModerationListItemProps {
-  item: ModerationItemType;
+  item: Moderation;
   onClick: () => void;
 }
 
@@ -22,8 +22,8 @@ const ModerationListItem = ({ item, onClick }: ModerationListItemProps) => {
 
 interface ModerationListProps {
   isToday: boolean;
-  moderations: ModerationItemType[];
-  onClickModeration: (id: number) => void;
+  moderations: Moderation[];
+  onClickModeration: (id: string) => void;
   onAddModeration: () => void;
 }
 

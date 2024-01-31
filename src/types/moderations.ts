@@ -2,8 +2,8 @@ export type ModerationStatusType = 'success' | 'fail'
 
 export type Moderation = {
   id: string;
-  content: string;
-  success: boolean;
+  title: string;
+  status: ModerationStatusType;
   date: string;
   userId: string;
   nottodoId: string;

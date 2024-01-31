@@ -49,8 +49,8 @@ const Home = () => {
     onCancelAddModifyModal()
   }
 
-  const onClickModeration = (id: number) => {
-    const moderation = moderationsQuery.data?.find(item => item.id === id.toString())
+  const onClickModeration = (id: string) => {
+    const moderation = moderationsQuery.data?.find(item => item.id === id)
 
     if (moderation) {
       setShowDetailModal(true);
@@ -78,8 +78,8 @@ const Home = () => {
 
   const onModify = () => {
     setNewModeration({
-      content: selectedModeration!.content,
-      status: selectedModeration!.success ? 'success' : 'fail'
+      content: selectedModeration!.title,
+      status: selectedModeration!.status
     })
     setShowDetailModal(false)
     setShowAddModal(true)

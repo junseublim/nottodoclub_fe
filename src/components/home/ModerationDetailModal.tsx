@@ -1,12 +1,12 @@
 import ThumbsUp from '@/assets/svgs/thumb_up.svg?react';
 import ThumbsDown from '@/assets/svgs/thumb_down.svg?react';
 import BottomModal from "@/components/common/modals/BottomModal";
-import { ModerationItemType } from "@/types";
+import { Moderation } from "@/types";
 import TertiaryButton from '../common/buttons/TertiaryButton';
 import { dateToHHMMMeridiemformat } from '@/utils';
 
 interface ModerationDetailModalProps {
-  moderation: ModerationItemType | null;
+  moderation: Moderation | null;
   isOpen: boolean;
   onClose: () => void;
   onDelete: () => void;
