@@ -1,4 +1,5 @@
 import Carousel from "@/components/common/Carousel";
+import { Nottodo } from "@/types";
 
 interface NottodoSlideProps {
   title: string;
@@ -35,34 +36,27 @@ const NottodoSlide = ({
   );
 };
 
-const NottodoCarousel = () => {
+interface NottodoCarouselProps {
+  nottodos: Nottodo[]
+}
+
+const NottodoCarousel = ({ nottodos }: NottodoCarouselProps) => {
   return (
     <Carousel>
-      <Carousel.Item>
-        <NottodoSlide
-          title="8시 이후 금식"
-          description="체중 감량"
-          successCount={20}
-          duration={32}
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <NottodoSlide
-          title="8시 이후 금식"
-          description="체중 감량"
-          successCount={20}
-          duration={32}
-          isDark={true}
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <NottodoSlide
-          title="8시 이후 금식"
-          description="체중 감량"
-          successCount={20}
-          duration={32}
-        />
-      </Carousel.Item>
+      {
+        nottodos?.map(nottodo => (
+          <Carousel.Item
+            key={nottodo.id + nottodo.title}
+          >
+            <NottodoSlide
+              title={nottodo.title}
+              description={nottodo.goal}
+              successCount={20}
+              duration={32}
+            />
+          </Carousel.Item>
+        ))
+      }
     </Carousel>
   );
 };

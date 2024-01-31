@@ -1,5 +1,6 @@
 import { get } from "@/api/core"
+import { Nottodo } from "@/types"
 
 export const getAllNottodosByUserId = (id: string) => {
-  return get(`/nottodo?userId=${id}`)
+  return get<Nottodo[]>(`/nottodo?userId=${id}`)
 }

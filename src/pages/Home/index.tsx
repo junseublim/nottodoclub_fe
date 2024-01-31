@@ -1,13 +1,14 @@
 import NottodoCarousel from "@/components/home/NottodoCarousel";
 import HomeCalendar from "@/components/home/ModerationCalendar";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import ModerationAddModal from "@/components/home/ModerationAddModal";
 import ModerationList from "@/components/home/ModerationList";
 import ModerationDetailModal from "@/components/home/ModerationDetailModal";
-import { ModerationItemType, ModerationStatusType } from "@/types";
+import { Moderation, ModerationStatusType, Nottodo } from "@/types";
 import { isSameDate } from "@/utils";
 import DeleteModerationModal from "@/components/home/DeleteModerationModal";
 import EmptyNottodo from "./EmptyNottodo";
+import { useGetAllNottodosByUserId, useGetAllModerationByNottodoId } from "@/api";
 
 type NewModerationType = {
   content: string;
@@ -15,30 +16,29 @@ type NewModerationType = {
 }
 
 const Home = () => {
-  const [noNottodos] = useState(false);
+  const [currentNottodo, setCurrentNottodo] = useState<Nottodo | null>(null);
   const [date, setDate] = useState<Date>(new Date());
-  const [currentNottodo, setCurrentNottodo] = useState(null);
-  const [moderations, setModerations] = useState<ModerationItemType[]>([
-    { id: 0, title: 'title1', date: new Date(), status: 'success' },
-    { id: 1, title: 'title2', date: new Date(), status: 'fail' },
-    { id: 2, title: 'title3', date: new Date(), status: 'success' },
-    { id: 3, title: 'title4', date: new Date(), status: 'fail' },
-    { id: 4, title: 'title5', date: new Date(), status: 'success' },
-    { id: 5, title: 'title6', date: new Date(), status: 'fail' },
-    { id: 6, title: 'title7', date: new Date(), status: 'success' },
-    { id: 7, title: 'title8', date: new Date(), status: 'fail' },
-    { id: 8, title: 'title9', date: new Date(), status: 'success' },
-    { id: 9, title: 'title10', date: new Date(), status: 'fail' },
-  ]);
   const [isToday, setIsToday] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedModeration, setSelectedModeration] = useState<ModerationItemType | null>(null)
+  const [selectedModeration, setSelectedModeration] = useState<Moderation | null>(null)
   const [newModeration, setNewModeration] = useState<NewModerationType>({
     content: '',
     status: 'success'
   })
+
+  const nottodosQuery = useGetAllNottodosByUserId('1')
+  const moderationsQuery = useGetAllModerationByNottodoId(currentNottodo?.id || '', !!currentNottodo)
+
+
+  useEffect(() => {
+    const { data } = nottodosQuery
+    if (data && data.length > 0) {
+      setCurrentNottodo(data[0])
+    }
+
+  }, [nottodosQuery.data])
 
   const setSelectedDate = (date: Date) => {
     setDate(date);
@@ -50,7 +50,7 @@ const Home = () => {
   }
 
   const onClickModeration = (id: number) => {
-    const moderation = moderations.find(item => item.id === id)
+    const moderation = moderationsQuery.data?.find(item => item.id === id.toString())
 
     if (moderation) {
       setShowDetailModal(true);
@@ -78,8 +78,8 @@ const Home = () => {
 
   const onModify = () => {
     setNewModeration({
-      content: selectedModeration!.title,
-      status: selectedModeration!.status
+      content: selectedModeration!.content,
+      status: selectedModeration!.success ? 'success' : 'fail'
     })
     setShowDetailModal(false)
     setShowAddModal(true)
@@ -99,16 +99,22 @@ const Home = () => {
     }))
   }
 
-  if (noNottodos) {
+  if (!nottodosQuery.data || !moderationsQuery.data) {
+    return
+  }
+
+  if (nottodosQuery.data && nottodosQuery.data.length === 0) {
     return <EmptyNottodo />
   }
 
   return (
     <div>
-      <NottodoCarousel />
+      <NottodoCarousel 
+        nottodos={nottodosQuery.data}
+      />
       <HomeCalendar date={date} onDateChange={setSelectedDate} />
       <ModerationList 
-        moderations={moderations}
+        moderations={moderationsQuery.data}
         isToday={isToday}
         onAddModeration={() => setShowAddModal(true)}
         onClickModeration={onClickModeration}

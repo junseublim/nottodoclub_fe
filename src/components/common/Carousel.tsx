@@ -2,7 +2,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 interface CarouselProps {
-  children: React.ReactElement<CarouselItemProps>[];
+  children: React.ReactElement<CarouselItemProps> | React.ReactElement < CarouselItemProps > [];
 }
 
 const Carousel = ({ children }: CarouselProps) => {

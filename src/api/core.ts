@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: process.env.API_URL
+  baseURL: import.meta.env.VITE_API_BASE_URL
 })
 
 export const resultify = <T>(response: AxiosResponse<T>) => {

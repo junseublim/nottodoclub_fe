@@ -29,7 +29,6 @@ export default function ModalContextProvider({ children }: {children: JSX.Elemen
 
   useEffect(() => {
     setShowModal(modals.length > 0)
-    console.log(modals)
   }, [modals])
 
   const contextValue = {showModal, addModal, removeModal}

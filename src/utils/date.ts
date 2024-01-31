@@ -13,10 +13,12 @@ export function isTomorrowOrLater(date: Date) {
   return date > today
 }
 
-export function dateToHHMMMeridiemformat(date: Date) {
+export function dateToHHMMMeridiemformat(date: string) {
+  const dateObj = new Date(date)
+  
   return new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: true
-    }).format(date);
+    }).format(dateObj);
 }
