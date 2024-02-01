@@ -1,11 +1,10 @@
-export type ModerationStatusType = 'success' | 'fail'
+export type ModerationStatusType = "success" | "fail";
 
 export type Moderation = {
   id: string;
-  title: string;
-  status: ModerationStatusType;
+  content: string;
+  success: boolean;
   date: string;
   userId: string;
   nottodoId: string;
-}
-
+};

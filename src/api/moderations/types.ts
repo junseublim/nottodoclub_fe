@@ -1,8 +1,5 @@
-export type GetModerationsRes = {
-  id: string;
-  content: string;
+export type PostModerationReq = {
   success: boolean;
-  date: string;
-  userId: string;
+  content: string;
   nottodoId: string;
-}
+};

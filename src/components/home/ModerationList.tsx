@@ -12,13 +12,19 @@ const ModerationListItem = ({ item, onClick }: ModerationListItemProps) => {
   return (
     <li className="flex justify-between mt-5 items-center" onClick={onClick}>
       <div className="flex">
-        <span className={`w-1.5 rounded-xl mr-2 bg-${moderationStatusToColor(item.status)}`} />
-        <span>{item.title}</span>
+        <span
+          className={`w-1.5 rounded-xl mr-2 bg-${moderationStatusToColor(
+            item.success
+          )}`}
+        />
+        <span>{item.content}</span>
       </div>
-      <span className="text-gray-500 text-sm">{dateToHHMMMeridiemformat(item.date)}</span>
+      <span className="text-gray-500 text-sm">
+        {dateToHHMMMeridiemformat(item.date)}
+      </span>
     </li>
-  )
-}
+  );
+};
 
 interface ModerationListProps {
   isToday: boolean;
@@ -27,7 +33,12 @@ interface ModerationListProps {
   onAddModeration: () => void;
 }
 
-const ModerationList = ({ isToday, moderations, onClickModeration, onAddModeration }: ModerationListProps) => {
+const ModerationList = ({
+  isToday,
+  moderations,
+  onClickModeration,
+  onAddModeration,
+}: ModerationListProps) => {
   if (moderations.length === 0) {
     if (isToday) {
       return <AddModerationCard onClick={onAddModeration} />;
@@ -39,15 +50,21 @@ const ModerationList = ({ isToday, moderations, onClickModeration, onAddModerati
   return (
     <div className="flex flex-col items-center mb-4">
       <ul className="my-5 border-t w-11/12 mx-auto">
-      {
-        moderations.map((item,index) => (
-          <ModerationListItem key={`${item.title}_${index}`} item={item} onClick={() => onClickModeration(item.id)}/>
-        )) 
-      }
+        {moderations.map((item, index) => (
+          <ModerationListItem
+            key={`${item.content}_${index}`}
+            item={item}
+            onClick={() => onClickModeration(item.id)}
+          />
+        ))}
       </ul>
-      <SecondaryButton className="px-8 py-2" label={"기록 추가"} onClick={onAddModeration} />
+      <SecondaryButton
+        className="px-8 py-2"
+        label={"기록 추가"}
+        onClick={onAddModeration}
+      />
     </div>
   );
-}
- 
+};
+
 export default ModerationList;

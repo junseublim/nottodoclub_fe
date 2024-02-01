@@ -1,19 +1,23 @@
 import NottodoCarousel from "@/components/home/NottodoCarousel";
 import HomeCalendar from "@/components/home/ModerationCalendar";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ModerationAddModal from "@/components/home/ModerationAddModal";
 import ModerationList from "@/components/home/ModerationList";
 import ModerationDetailModal from "@/components/home/ModerationDetailModal";
 import { Moderation, ModerationStatusType, Nottodo } from "@/types";
 import { isSameDate } from "@/utils";
-import DeleteModerationModal from "@/components/home/DeleteModerationModal";
+import ModerationDeleteModal from "@/components/home/ModerationDeleteModal";
 import EmptyNottodo from "./EmptyNottodo";
-import { useGetAllNottodosByUserId, useGetAllModerationByNottodoId } from "@/api";
+import {
+  useGetAllNottodosByUserId,
+  useGetAllModerationByNottodoId,
+  usePostModeration,
+} from "@/api";
 
 type NewModerationType = {
   content: string;
-  status: ModerationStatusType;
-}
+  success: boolean;
+};
 
 const Home = () => {
   const [currentNottodo, setCurrentNottodo] = useState<Nottodo | null>(null);
@@ -22,107 +26,112 @@ const Home = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedModeration, setSelectedModeration] = useState<Moderation | null>(null)
+  const [selectedModeration, setSelectedModeration] =
+    useState<Moderation | null>(null);
   const [newModeration, setNewModeration] = useState<NewModerationType>({
-    content: '',
-    status: 'success'
-  })
+    content: "",
+    success: true,
+  });
 
-  const nottodosQuery = useGetAllNottodosByUserId('1')
-  const moderationsQuery = useGetAllModerationByNottodoId(currentNottodo?.id || '', !!currentNottodo)
-
+  const nottodosQuery = useGetAllNottodosByUserId("1");
+  const moderationsQuery = useGetAllModerationByNottodoId(
+    currentNottodo?.id || "",
+    !!currentNottodo
+  );
+  const moderationsMutation = usePostModeration();
 
   useEffect(() => {
-    const { data } = nottodosQuery
+    const { data } = nottodosQuery;
     if (data && data.length > 0) {
-      setCurrentNottodo(data[0])
+      setCurrentNottodo(data[0]);
     }
-
-  }, [nottodosQuery.data])
+  }, [nottodosQuery.data]);
 
   const setSelectedDate = (date: Date) => {
     setDate(date);
-    setIsToday(isSameDate(date, new Date()))
+    setIsToday(isSameDate(date, new Date()));
   };
 
   const onSubmit = () => {
-    onCancelAddModifyModal()
-  }
+    moderationsMutation.mutate({
+      ...newModeration,
+      nottodoId: currentNottodo!.id,
+    });
+    onCancelAddModifyModal();
+  };
 
   const onClickModeration = (id: string) => {
-    const moderation = moderationsQuery.data?.find(item => item.id === id)
+    const moderation = moderationsQuery.data?.find((item) => item.id === id);
 
     if (moderation) {
       setShowDetailModal(true);
-      setSelectedModeration(moderation)
+      setSelectedModeration(moderation);
     }
-  }
+  };
 
   const onShowDeleteModal = () => {
-    setShowDetailModal(false)
-    setShowDeleteModal(true)
-  }
+    setShowDetailModal(false);
+    setShowDeleteModal(true);
+  };
 
   const onCancelDeleteModal = () => {
-    setShowDeleteModal(false)
-    setShowDetailModal(true)
-  }
+    setShowDeleteModal(false);
+    setShowDetailModal(true);
+  };
 
   const onCancelAddModifyModal = () => {
     setNewModeration({
-      content: '',
-      status: 'success'
-    })
-    setShowAddModal(false)
-  }
+      content: "",
+      success: true,
+    });
+    setShowAddModal(false);
+  };
 
   const onModify = () => {
     setNewModeration({
-      content: selectedModeration!.title,
-      status: selectedModeration!.status
-    })
-    setShowDetailModal(false)
-    setShowAddModal(true)
-  }
+      content: selectedModeration!.content,
+      success: selectedModeration!.success,
+    });
+    setShowDetailModal(false);
+    setShowAddModal(true);
+  };
 
-  const setStatus = (value: ModerationStatusType) => {
-    setNewModeration(moderation => ({
+  const setSuccess = (success: boolean) => {
+    setNewModeration((moderation) => ({
       ...moderation,
-      status: value
-    }))
-  }
+      success,
+    }));
+  };
 
   const setContent = (value: string) => {
-    setNewModeration(moderation => ({
+    setNewModeration((moderation) => ({
       ...moderation,
-      content: value
-    }))
-  }
+      content: value,
+    }));
+  };
 
   if (!nottodosQuery.data || !moderationsQuery.data) {
-    return
+    return;
   }
 
   if (nottodosQuery.data.length === 0) {
-    return <EmptyNottodo />
+    return <EmptyNottodo />;
   }
 
   return (
     <div>
-      <NottodoCarousel 
-        nottodos={nottodosQuery.data}
-      />
+      <NottodoCarousel nottodos={nottodosQuery.data} />
       <HomeCalendar date={date} onDateChange={setSelectedDate} />
-      <ModerationList 
+      <ModerationList
         moderations={moderationsQuery.data}
         isToday={isToday}
         onAddModeration={() => setShowAddModal(true)}
         onClickModeration={onClickModeration}
       />
       <ModerationAddModal
-        status={newModeration.status}
+        success={newModeration.success}
         content={newModeration.content}
-        setStatus={setStatus}
+        setSuccess={setSuccess}
         setContent={setContent}
         isOpen={showAddModal}
         onSubmit={onSubmit}
@@ -135,7 +144,7 @@ const Home = () => {
         onDelete={onShowDeleteModal}
         onClose={() => setShowDetailModal(false)}
       />
-      <DeleteModerationModal
+      <ModerationDeleteModal
         isOpen={showDeleteModal}
         onClose={onCancelDeleteModal}
         onDelete={console.log}
