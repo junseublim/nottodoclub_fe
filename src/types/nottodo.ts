@@ -6,5 +6,5 @@ export type Nottodo = {
   endDate: string;
   createdAt: string;
   updatedAt: string;
-  userId: number;
-}
+  userId: string;
+};
