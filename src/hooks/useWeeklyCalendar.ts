@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
+import { getStartOfWeek, getEndOfWeek } from "@/utils";
 
-export default function useWeeklyCalendar() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+export default function useWeeklyCalendar(date: Date) {
+  const [selectedDate, setSelectedDate] = useState<Date>(date);
   const [weekDays, setWeekDays] = useState<Date[]>([]);
   const [month, setMonth] = useState<number>(0);
   const [week, setWeek] = useState<number>(0);
+  const [monday, setMonday] = useState<Date>(new Date());
+  const [sunday, setSunday] = useState<Date>(new Date());
 
-  const getMondayByDate = (date: Date) => {
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(date.setDate(diff));
-  };
+  useEffect(() => {
+    setSelectedDate(date);
+  }, [date]);
+
+  useEffect(() => {
+    setMonday(getStartOfWeek(selectedDate));
+    setSunday(getEndOfWeek(selectedDate));
+  }, [selectedDate]);
 
   const getWeekDatesWithMonday = (mondayDate: Date) => {
     const weekDates = [];
@@ -52,7 +58,7 @@ export default function useWeeklyCalendar() {
   };
 
   useEffect(() => {
-    const monday = getMondayByDate(selectedDate);
+    const monday = getStartOfWeek(selectedDate);
     const weekDays = getWeekDatesWithMonday(monday);
     const thursday = weekDays[3];
     const month = thursday.getMonth() + 1;
@@ -79,5 +85,7 @@ export default function useWeeklyCalendar() {
     weekDays,
     month,
     week,
+    monday,
+    sunday,
   };
 }

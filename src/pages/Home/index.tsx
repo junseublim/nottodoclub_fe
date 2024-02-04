@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import ModerationAddModal from "@/components/home/ModerationAddModal";
 import ModerationList from "@/components/home/ModerationList";
 import ModerationDetailModal from "@/components/home/ModerationDetailModal";
-import { Moderation, ModerationStatusType, Nottodo } from "@/types";
-import { isSameDate } from "@/utils";
+import { Moderation, Nottodo } from "@/types";
+import { getEndOfDate, getStartOfDate, isSameDate } from "@/utils";
 import ModerationDeleteModal from "@/components/home/ModerationDeleteModal";
 import EmptyNottodo from "./EmptyNottodo";
 import {
   useGetAllNottodosByUserId,
-  useGetAllModerationByNottodoId,
+  useGetModerations,
   usePostModeration,
 } from "@/api";
 
@@ -34,8 +34,11 @@ const Home = () => {
   });
 
   const nottodosQuery = useGetAllNottodosByUserId("1");
-  const moderationsQuery = useGetAllModerationByNottodoId(
+
+  const moderationsOfTodayQuery = useGetModerations(
     currentNottodo?.id || "",
+    getStartOfDate(date),
+    getEndOfDate(date),
     !!currentNottodo
   );
   const moderationsMutation = usePostModeration();
@@ -61,7 +64,9 @@ const Home = () => {
   };
 
   const onClickModeration = (id: string) => {
-    const moderation = moderationsQuery.data?.find((item) => item.id === id);
+    const moderation = moderationsOfTodayQuery.data?.find(
+      (item) => item.id === id
+    );
 
     if (moderation) {
       setShowDetailModal(true);
@@ -110,7 +115,7 @@ const Home = () => {
     }));
   };
 
-  if (!nottodosQuery.data || !moderationsQuery.data) {
+  if (!nottodosQuery.data || !moderationsOfTodayQuery.data) {
     return;
   }
 
@@ -118,12 +123,23 @@ const Home = () => {
     return <EmptyNottodo />;
   }
 
+  const onChangeNottodo = (index: number) => {
+    setCurrentNottodo(nottodosQuery.data[index]);
+  };
+
   return (
     <div>
-      <NottodoCarousel nottodos={nottodosQuery.data} />
-      <HomeCalendar date={date} onDateChange={setSelectedDate} />
+      <NottodoCarousel
+        nottodos={nottodosQuery.data}
+        onSelect={onChangeNottodo}
+      />
+      <HomeCalendar
+        date={date}
+        nottodoId={currentNottodo?.id || ""}
+        onDateChange={setSelectedDate}
+      />
       <ModerationList
-        moderations={moderationsQuery.data}
+        moderations={moderationsOfTodayQuery.data}
         isToday={isToday}
         onAddModeration={() => setShowAddModal(true)}
         onClickModeration={onClickModeration}

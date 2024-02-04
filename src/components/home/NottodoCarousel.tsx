@@ -37,27 +37,24 @@ const NottodoSlide = ({
 };
 
 interface NottodoCarouselProps {
-  nottodos: Nottodo[]
+  nottodos: Nottodo[];
+  onSelect: (index: number) => void;
 }
 
-const NottodoCarousel = ({ nottodos }: NottodoCarouselProps) => {
+const NottodoCarousel = ({ nottodos, onSelect }: NottodoCarouselProps) => {
   return (
-    <Carousel>
-      {
-        nottodos?.map((nottodo, index) => (
-          <Carousel.Item
-            key={nottodo.id + nottodo.title}
-          >
-            <NottodoSlide
-              isDark={index % 2 !== 0}
-              title={nottodo.title}
-              description={nottodo.goal}
-              successCount={20}
-              duration={32}
-            />
-          </Carousel.Item>
-        ))
-      }
+    <Carousel onSelect={onSelect}>
+      {nottodos?.map((nottodo, index) => (
+        <Carousel.Item key={nottodo.id + nottodo.title}>
+          <NottodoSlide
+            isDark={index % 2 !== 0}
+            title={nottodo.title}
+            description={nottodo.goal}
+            successCount={20}
+            duration={32}
+          />
+        </Carousel.Item>
+      ))}
     </Carousel>
   );
 };

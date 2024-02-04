@@ -1,14 +1,21 @@
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+import { useEffect } from "react";
 
 interface CarouselProps {
-  children: React.ReactElement<CarouselItemProps> | React.ReactElement < CarouselItemProps > [];
+  children:
+    | React.ReactElement<CarouselItemProps>
+    | React.ReactElement<CarouselItemProps>[];
+  onSelect: (index: number) => void;
 }
 
-const Carousel = ({ children }: CarouselProps) => {
-  const [emblaRef] = useEmblaCarousel({ loop: false }, [
-    Autoplay({ delay: 8000 }),
-  ]);
+const Carousel = ({ children, onSelect }: CarouselProps) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.on("select", () => onSelect(emblaApi.selectedScrollSnap()));
+    }
+  }, [emblaApi]);
 
   return (
     <div className="overflow-hidden w-full" ref={emblaRef}>
